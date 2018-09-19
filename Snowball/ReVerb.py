@@ -6,11 +6,12 @@ __email__ = "dsbatista@inesc-id.pt"
 
 import fileinput
 import StringIO
+import nltk
 from nltk import pos_tag
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.tag.mapping import map_tag
-from nltk.tokenize.punkt import PunktWordTokenizer
-from SentenceBreds import Sentence
+
+from Snowball.Sentence import Sentence
 
 
 class Reverb(object):
@@ -46,7 +47,7 @@ class Reverb(object):
         """
 
         # split text into tokens
-        text_tokens = PunktWordTokenizer().tokenize(text)
+        text_tokens = nltk.tokenize.TreebankWordTokenizer().tokenize(text)
 
         # tag the sentence, using the default NTLK English tagger
         # POS_TAGGER = 'taggers/maxent_treebank_pos_tagger/english.pickle'
@@ -201,7 +202,7 @@ class Reverb(object):
         # P = (prep | particle | inf. marker)
 
         # split text into tokens
-        text_tokens = PunktWordTokenizer().tokenize(text)
+        text_tokens = nltk.tokenize.TreebankWordTokenizer().tokenize(text)
 
         # tag the sentence, using the default NTLK English tagger
         # POS_TAGGER = 'taggers/maxent_treebank_pos_tagger/english.pickle'

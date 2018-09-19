@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from Snowball import VectorSpaceModel
+from Snowball.VectorSpaceModel import VectorSpaceModel
 
 __author__ = "David S. Batista"
 __email__ = "dsbatista@inesc-id.pt"
@@ -22,7 +22,7 @@ class Config(object):
         self.negative_seed_tuples = set()
         self.e1_type = None
         self.e2_type = None
-        self.stopwords = stopwords.words('english')
+        # self.stopwords = stopwords.words('english')
         self.threshold_similarity = similarity
         self.instance_confidance = confidance
         self.reverb = Reverb()
@@ -114,7 +114,7 @@ class Config(object):
 
         except IOError:
             print "\nGenerating tf-idf model from sentences..."
-            self.vsm = VectorSpaceModel(sentences_file, self.stopwords)
+            self.vsm = VectorSpaceModel(sentences_file)
             print "\nWriting generated model to disk..."
             f = open("vsm.pkl", "wb")
             cPickle.dump(self.vsm, f)

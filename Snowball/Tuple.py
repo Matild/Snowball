@@ -5,7 +5,7 @@ __author__ = "David S. Batista"
 __email__ = "dsbatista@inesc-id.pt"
 
 import sys
-
+import nltk
 from nltk import pos_tag, word_tokenize
 from Snowball.ReVerb import Reverb
 
@@ -76,8 +76,7 @@ class Tuple(object):
 
         def construct_pattern_vector(self, pattern_tags, config):
             # construct TF-IDF representation for each context
-            pattern = [t[0] for t in pattern_tags if t[0].lower() not in config.stopwords and t[1] not in
-                       self.filter_pos]
+            pattern = [t[0] for t in pattern_tags if t[1] not in self.filter_pos]
 
             if len(pattern) >= 1:
                 vect_ids = self.config.vsm.dictionary.doc2bow(pattern)
@@ -88,7 +87,7 @@ class Tuple(object):
             # POS_TAGGER = 'taggers/maxent_treebank_pos_tagger/english.pickle'
             text_tokens = word_tokenize(words)
             tags_ptb = pos_tag(text_tokens)
-            pattern = [t[0] for t in tags_ptb if t[0].lower() not in config.stopwords and t[1] not in self.filter_pos]
+            pattern = [t[0] for t in tags_ptb if t[1] not in self.filter_pos]
             if len(pattern) >= 1:
                 vect_ids = self.config.vsm.dictionary.doc2bow(pattern)
                 return self.config.vsm.tf_idf_model[vect_ids]

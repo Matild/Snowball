@@ -9,7 +9,7 @@ from nltk import word_tokenize
 
 # regex for simple tags, e.g.:
 # <PER>Bill Gates</PER>
-regex_simple = re.compile('<[A-Z]+>[^<]+</[A-Z]+>', re.U)
+regex_simple = re.compile('<[a-zA-Z]+>[^<]+</[a-zA-Z]+>', re.U)
 
 # regex for wikipedia linked tags e.g.:
 # <PER url=http://en.wikipedia.org/wiki/Mark_Zuckerberg>Mark Elliot Zuckerberg</PER>
@@ -33,7 +33,7 @@ class Relationship:
         if _before is None and _between is None and _after is None and _sentence is not None:
             matches = []
             for m in re.finditer(regex_linked, self.sentence):
-                matches.append(m)
+                matches.append(m)                
 
             for x in range(0, len(matches) - 1):
                 if x == 0:
@@ -50,8 +50,8 @@ class Relationship:
                 self.after = self.sentence[matches[x + 1].end(): end]
                 self.ent1 = matches[x].group()
                 self.ent2 = matches[x + 1].group()
-                arg1match = re.match("<[A-Z]+>", self.ent1)
-                arg2match = re.match("<[A-Z]+>", self.ent2)
+                arg1match = re.match("<[a-zA-Z]+>", self.ent1)
+                arg2match = re.match("<[a-zA-Z]+>", self.ent2)
                 self.arg1type = arg1match.group()[1:-1]
                 self.arg2type = arg2match.group()[1:-1]
 
@@ -75,7 +75,7 @@ class Sentence:
 
         #TODO: regex to used depends on Config.tags_type
         #for m in re.finditer(regex_linked, self.sentence):
-        for m in re.finditer(regex_simple, self.sentence):
+        for m in re.finditer(regex_simple, self.sentence):            
             matches.append(m)
 
         if len(matches) >= 2:
@@ -108,10 +108,10 @@ class Sentence:
                     # simple tags
                     ent1 = matches[x].group()
                     ent2 = matches[x + 1].group()
-                    arg1match = re.match("<[A-Z]+>", ent1)
-                    arg2match = re.match("<[A-Z]+>", ent2)
-                    ent1 = re.sub("</?[A-Z]+>", "", ent1, count=2, flags=0)
-                    ent2 = re.sub("</?[A-Z]+>", "", ent2, count=2, flags=0)
+                    arg1match = re.match("<[a-zA-Z]+>", ent1)
+                    arg2match = re.match("<[a-zA-Z]+>", ent2)
+                    ent1 = re.sub("</?[a-zA-Z]+>", "", ent1, count=2, flags=0)
+                    ent2 = re.sub("</?[a-zA-Z]+>", "", ent2, count=2, flags=0)
                     arg1type = arg1match.group()[1:-1]
                     arg2type = arg2match.group()[1:-1]
 
@@ -170,9 +170,9 @@ class SentenceParser:
         for e1 in self.entities:
             for e2 in self.entities:
                 if e1 == e2:
-                    continue
-                arg1match = re.match("<([A-Z]+)>", e1)
-                arg2match = re.match("<([A-Z]+)>", e2)
+                    continue                
+                arg1match = re.match("<([a-zA-Z]+)>", e1)
+                arg2match = re.match("<([a-zA-Z]+)>", e2)
                 if arg1match.group(1) == e1_type and arg2match.group(1) == e2_type:
                     self.valid = True
                     break;
